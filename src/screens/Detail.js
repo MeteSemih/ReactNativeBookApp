@@ -1,63 +1,97 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { useRoute } from '@react-navigation/native'
+import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
+import React from 'react';
+import { useRoute } from '@react-navigation/native';
 
 const Detail = () => {
+  const route = useRoute();
+  const { id, title, publisher, pages, villains, image } = route.params;
 
-    const route = useRoute()
-    const {id,title,publisher,pages,villains,image} = route.params
-
-    useEffect(() => {
-    }, [id])
-    
-    
   return (
-    <View style={styles.container}>
-      <Text style={styles.head_text}>Kitap Detay</Text>
-      <View style={styles.detailContainer}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.head_text}>📚 Kitap Detayı</Text>
+
+      <Image source={{ uri: image }} style={styles.image} />
+
       <Text style={styles.title}>{title}</Text>
-      <Image source={{ uri:image }} style={styles.image}/>
 
+      <View style={styles.card}>
+        <Text style={styles.label}>📌 Yayıncı:</Text>
+        <Text style={styles.value}>{publisher}</Text>
+
+        <Text style={styles.label}>📄 Sayfa Sayısı:</Text>
+        <Text style={styles.value}>{pages}</Text>
+
+        {Array.isArray(villains) && villains.length > 0 && (
+          <>
+            <Text style={styles.label}>👿 Kötü Karakterler:</Text>
+            <View style={styles.villainList}>
+              {villains.map((v, index) => (
+                <Text key={index} style={styles.villainItem}>• {v.name}</Text>
+              ))}
+            </View>
+          </>
+        )}
       </View>
-      <View>
-        <Text style={{fontSize:18, fontWeight:'bold', marginBottom:8}}>Yayıncı: {publisher}</Text>
-        <Text style={{fontSize:16, marginBottom:4}}>Sayfa Sayısı: {pages}</Text>
-  
-      </View>
-    </View>
-  )
-}
+    </ScrollView>
+  );
+};
 
-export default Detail
-
+export default Detail;
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        padding:64,
-        alignItems:'center',
-        backgroundColor:'#fff'
-    },
-    head_text: {
-        fontSize: 36,
-        fontWeight: 'bold',
-        marginBottom: 16,
-        color: '#333',
-    },
-    detailContainer:{
-        flex:1,
-    },
-    title:{
-       textAlign:'center',
-       fontSize:24,
-       fontWeight:'bold',
-       marginBottom:12,
-    },
-    image:{
-        width:200,
-        height:200,
-        alignSelf:'center',
-        resizeMode:'stretch',
-        borderRadius:12,
-    }
-
-})
+  container: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  head_text: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FF6F3C',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  image: {
+    width: 200,
+    height: 280,
+    borderRadius: 12,
+    marginBottom: 16,
+    resizeMode: 'cover',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  card: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#555',
+    marginTop: 12,
+  },
+  value: {
+    fontSize: 16,
+    color: '#333',
+    marginTop: 4,
+  },
+  villainList: {
+    marginTop: 8,
+  },
+  villainItem: {
+    fontSize: 14,
+    color: '#444',
+    marginLeft: 8,
+    marginBottom: 2,
+  },
+});

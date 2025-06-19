@@ -37,6 +37,7 @@ const Home = () => {
       id={item.id}
       publisher={item.Publisher}
       pages={item.Pages}
+      villains={item.villains}
     />
   );
 
