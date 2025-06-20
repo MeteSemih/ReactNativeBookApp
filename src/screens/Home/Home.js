@@ -3,20 +3,33 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks } from "../../store/slice/bookSlice";
 import CardComponent from "../../component/CardComponent/CardComponent";
-import { styles } from "./Home.style"; // Assuming styles are defined in Home.style.js
+import { styles } from "./Home.style"; 
+
 const Home = () => {
+
+  const [filteredList, setFilteredList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+
   const { list, error, loading } = useSelector((state) => state.books);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchBooks());
   }, [dispatch]);
+
+
+  useEffect(()=> {
+    const filtered = list.filter((item)=> item.Title.toLowerCase().includes(searchTerm.toLowerCase()))
+    setFilteredList(filtered);
+  },[searchTerm,list])
 
   if (loading) {
     return (
@@ -49,8 +62,15 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.head}>Stephen King Books</Text>
+      <TextInput
+      placeholder="Ara"
+      placeholderTextColor= "#999"
+      style={styles.input}
+      value={searchTerm}
+      onChangeText={(text) => setSearchTerm(text)}
+      />
       <FlatList
-        data={list}
+        data={filteredList}
         numColumns={2}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}

@@ -7,6 +7,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 24,
   },
+  input:{
+    height:40,
+    borderWidth:1,
+    borderRadius:20,
+    padding:12,
+    elevation:2,
+    marginBottom: 16,
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
