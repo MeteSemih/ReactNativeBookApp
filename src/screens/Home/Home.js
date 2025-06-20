@@ -1,9 +1,15 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchBooks } from '../store/slice/bookSlice';
-import CardComponent from '../component/CardComponent';
-
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBooks } from "../../store/slice/bookSlice";
+import CardComponent from "../../component/CardComponent/CardComponent";
+import { styles } from "./Home.style"; // Assuming styles are defined in Home.style.js
 const Home = () => {
   const { list, error, loading } = useSelector((state) => state.books);
   const dispatch = useDispatch();
@@ -24,7 +30,7 @@ const Home = () => {
   if (error) {
     return (
       <View style={styles.center}>
-        <Text style={{ color: 'red' }}>Error: {error}</Text>
+        <Text style={{ color: "red" }}>Error: {error}</Text>
       </View>
     );
   }
@@ -56,28 +62,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 16,
-    paddingTop: 24,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  head: {
-    textAlign: 'center',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#FF6F3C',
-    paddingTop:20,
-  },
-  listContent: {
-    paddingBottom: 20,
-  },
-});
